@@ -79,7 +79,6 @@ public class PropietarioServiceImpl implements PropietarioService {
         );
     }
 
-    //TODO: fix problema al editar un comun en BD a Exento y viceversa
     @Override
     public PropietarioResponse editarPropietarioComun(PropietarioRequest propietarioRequest) {
         validarPropietario(propietarioRequest);
