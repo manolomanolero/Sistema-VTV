@@ -1,0 +1,591 @@
+{
+	"info": {
+		"_postman_id": "c422e422-cd18-448c-8a1e-f71c9e063e69",
+		"name": "Sistema VTV",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14617154"
+	},
+	"item": [
+		{
+			"name": "Inspectores",
+			"item": [
+				{
+					"name": "Listar inspectores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspectores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspectores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar inspector por dni",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspectores/44444444",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspectores",
+								"44444444"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear inspector",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":5555,\r\n    \"nombre\": \"Flor\",\r\n    \"apellido\": \"Diaz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/inspectores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspectores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar inspector",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":5555,\r\n    \"nombre\": \"Marc\",\r\n    \"apellido\": \"Martinez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/inspectores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspectores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar inspector",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspectores?dni=44444444",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspectores"
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "44444444"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inspecciones",
+			"item": [
+				{
+					"name": "Listar inspecciones",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspecciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspecciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar inspeccion por numero de inspeccion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspecciones/44444444",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspecciones",
+								"44444444"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar inspecciones por auto de propietario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspecciones/propietario/55553",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspecciones",
+								"propietario",
+								"55553"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear inspeccion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numeroInspeccion\":null,\r\n    \"estado\": \"RECHAZADO\",\r\n    \"fecha\": \"2023-01-20\",\r\n    \"inspectorId\": 5555,\r\n    \"dominioAutomovil\": \"R32-1D3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/inspecciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspecciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar inspeccion",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":5555,\r\n    \"nombre\": \"Marc\",\r\n    \"apellido\": \"Martinez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/inspecciones",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspecciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar inspeccion",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/inspecciones?orden=44444444",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"inspecciones"
+							],
+							"query": [
+								{
+									"key": "orden",
+									"value": "44444444"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Automoviles",
+			"item": [
+				{
+					"name": "Listar automoviles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/automoviles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"automoviles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar automovil por dominio",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/automoviles/R89-SAD",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"automoviles",
+								"R89-SAD"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear automovil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"marca\":\"Ferrari\",\r\n    \"modelo\": \"asdzxc\",\r\n    \"dominio\": \"R32-1D3\",\r\n    \"propietarioDni\":55553\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/automoviles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"automoviles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar automovil",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"marca\":\"Peugeot\",\r\n    \"modelo\": \"JQ9-zxc\",\r\n    \"dominio\": \"SAD-123\",\r\n    \"propietarioDni\":23\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/automoviles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"automoviles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar automovil",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/automoviles?dominio=44444444",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"automoviles"
+							],
+							"query": [
+								{
+									"key": "dominio",
+									"value": "44444444"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Propietarios",
+			"item": [
+				{
+					"name": "Listar propietarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/propietarios",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar propietario por dni",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/propietarios/4125",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios",
+								"4125"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear propietario comun",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":23,\r\n    \"nombre\": \"Maras\",\r\n    \"apellido\": \"Diossa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/propietarios/comun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios",
+								"comun"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear propietario exento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":55553,\r\n    \"nombre\": \"Pipo\",\r\n    \"apellido\": \"Diaz\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/propietarios/exento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios",
+								"exento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar propietario comun",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":23,\r\n    \"nombre\": \"Marc\",\r\n    \"apellido\": \"Martinez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/propietarios/comun",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios",
+								"comun"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar propietario exento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dni\":23,\r\n    \"nombre\": \"Marc\",\r\n    \"apellido\": \"Martinez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/propietarios/exento",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios",
+								"exento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar propietario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/propietarios?dni=55553",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"propietarios"
+							],
+							"query": [
+								{
+									"key": "dni",
+									"value": "55553"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
