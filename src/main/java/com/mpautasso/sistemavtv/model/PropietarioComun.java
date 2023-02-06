@@ -11,11 +11,15 @@ import lombok.Data;
 @DiscriminatorValue("Comun")
 public class PropietarioComun extends Propietario {
     @Override
-    public String tipoPropietario() {
-        return "comun";
+    public String tipoDeCliente() {
+        return "Propietario comun";
     }
 
-    public PropietarioComun(Long id, Long dni, String nombre, String apellido){
+    public PropietarioComun(Long dni, String nombre, String apellido){
+        super(dni, nombre, apellido);
+    }
+
+    public PropietarioComun(Long id, Long dni, String nombre, String apellido) {
         super(id, dni, nombre, apellido);
     }
 }

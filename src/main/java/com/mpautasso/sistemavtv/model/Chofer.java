@@ -1,5 +1,6 @@
 package com.mpautasso.sistemavtv.model;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -7,27 +8,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue("Exento")
-public class PropietarioExento extends Propietario {
-    @Column(unique = true)
-    private Long cuit;
+@DiscriminatorValue("Chofer")
+public class Chofer extends Cliente{
+    @Column(length = 20)
+    private String cedulaAzul;
 
     @Override
     public String tipoDeCliente() {
-        return "Propietario exento";
+        return "Chofer";
     }
 
-    public PropietarioExento(Long dni, String nombre, String apellido, Long cuit){
+    public Chofer(Long dni, String nombre, String apellido, String cedulaAzul) {
         super(dni, nombre, apellido);
-        this.cuit = cuit;
+        this.cedulaAzul = cedulaAzul;
     }
 
-    public PropietarioExento(Long id, Long dni, String nombre, String apellido, Long cuit) {
+    public Chofer(Long id, Long dni, String nombre, String apellido, String cedulaAzul) {
         super(id, dni, nombre, apellido);
-        this.cuit = cuit;
+        this.cedulaAzul = cedulaAzul;
     }
 }
