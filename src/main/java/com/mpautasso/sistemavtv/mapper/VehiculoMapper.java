@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VehiculoMapper {
     @Autowired
-    private PropietarioMapper propietarioMapper;
+    private ClienteMapper clienteMapper;
 
     public Vehiculo fromAutomovilRequestToEntity(VehiculoRequest vehiculoRequest, Version version, Propietario propietario, Chofer chofer) {
         return new Automovil(null,
@@ -33,9 +33,9 @@ public class VehiculoMapper {
     }
 
     public VehiculoResponse fromEntityToResponse(Vehiculo vehiculo) {
-        ClienteResponse propietarioResponse = propietarioMapper.entityToResponse(vehiculo.getPropietario());
+        ClienteResponse propietarioResponse = clienteMapper.entityToResponse(vehiculo.getPropietario());
         ClienteResponse choferResponse = (vehiculo.getChofer() != null) ?
-                propietarioMapper.entityToResponse(vehiculo.getPropietario())
+                clienteMapper.entityToResponse(vehiculo.getPropietario())
                 : null;
 
         return new VehiculoResponse(

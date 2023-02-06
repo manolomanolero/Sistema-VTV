@@ -4,7 +4,7 @@ import com.mpautasso.sistemavtv.exceptions.custom.EntityAlreadyExistsException;
 import com.mpautasso.sistemavtv.exceptions.custom.EntityNotFoundException;
 import com.mpautasso.sistemavtv.exceptions.custom.InvalidArgumentException;
 import com.mpautasso.sistemavtv.exceptions.custom.NoSuchEntityExistsException;
-import com.mpautasso.sistemavtv.mapper.PropietarioMapper;
+import com.mpautasso.sistemavtv.mapper.ClienteMapper;
 import com.mpautasso.sistemavtv.model.Chofer;
 import com.mpautasso.sistemavtv.model.Cliente;
 import com.mpautasso.sistemavtv.model.Propietario;
@@ -23,26 +23,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClienteServiceImpl implements ClienteService {
     private final ClientesRepository clientesRepository;
-    private final PropietarioMapper propietarioMapper;
+    private final ClienteMapper clienteMapper;
 
     @Override
     public List<ClienteResponse> listarClientes() {
         return clientesRepository.findAll().stream()
-                .map(propietarioMapper::entityToResponse)
+                .map(clienteMapper::entityToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<ClienteResponse> listarPropietarios() {
         return clientesRepository.findAllPropietarios().stream()
-                .map(propietarioMapper::entityToResponse)
+                .map(clienteMapper::entityToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<ClienteResponse> listarChoferes() {
         return clientesRepository.findAllChoferes().stream()
-                .map(propietarioMapper::entityToResponse)
+                .map(clienteMapper::entityToResponse)
                 .collect(Collectors.toList());
     }
 
@@ -70,7 +70,7 @@ public class ClienteServiceImpl implements ClienteService {
         if(propietarioOptional.isEmpty()){
             throw new EntityNotFoundException("No se encontro propietario asociado a este dni");
         }
-        return propietarioMapper.entityToResponse(propietarioOptional.get());
+        return clienteMapper.entityToResponse(propietarioOptional.get());
     }
 
     @Override
@@ -91,9 +91,9 @@ public class ClienteServiceImpl implements ClienteService {
             throw new EntityAlreadyExistsException("Ya existe un propietario con este dni");
         }
 
-        return propietarioMapper.entityToResponse(
+        return clienteMapper.entityToResponse(
                 clientesRepository.save(
-                        propietarioMapper.comunRequestToEntity(clienteRequest)
+                        clienteMapper.comunRequestToEntity(clienteRequest)
                 )
         );
     }
@@ -107,9 +107,9 @@ public class ClienteServiceImpl implements ClienteService {
             throw new EntityAlreadyExistsException("Ya existe un propietario con este dni");
         }
 
-        return propietarioMapper.entityToResponse(
+        return clienteMapper.entityToResponse(
                 clientesRepository.save(
-                        propietarioMapper.exentoRequestToEntity(clienteRequest)
+                        clienteMapper.exentoRequestToEntity(clienteRequest)
                 )
         );
     }
@@ -123,9 +123,9 @@ public class ClienteServiceImpl implements ClienteService {
             throw new EntityAlreadyExistsException("Ya existe un chofer con este dni");
         }
 
-        return propietarioMapper.entityToResponse(
+        return clienteMapper.entityToResponse(
                 clientesRepository.save(
-                        propietarioMapper.clienteRequestToEntity(clienteRequest)
+                        clienteMapper.clienteRequestToEntity(clienteRequest)
                 )
         );
     }
@@ -139,10 +139,10 @@ public class ClienteServiceImpl implements ClienteService {
             throw new NoSuchEntityExistsException("No se encontro el propietario a editar");
         }
 
-        Propietario propietarioActualizado = propietarioMapper.comunRequestToEntity(clienteRequest);
+        Propietario propietarioActualizado = clienteMapper.comunRequestToEntity(clienteRequest);
         propietarioActualizado.setId(propietarioOptional.get().getId());
 
-        return propietarioMapper.entityToResponse(
+        return clienteMapper.entityToResponse(
                 clientesRepository.save(propietarioActualizado)
         );
     }
@@ -157,10 +157,10 @@ public class ClienteServiceImpl implements ClienteService {
         }
 
 
-        Propietario propietarioActualizado = propietarioMapper.exentoRequestToEntity(clienteRequest);
+        Propietario propietarioActualizado = clienteMapper.exentoRequestToEntity(clienteRequest);
         propietarioActualizado.setId(propietarioOptional.get().getId());
 
-        return propietarioMapper.entityToResponse(
+        return clienteMapper.entityToResponse(
                 clientesRepository.save(propietarioActualizado)
         );
     }
@@ -176,12 +176,12 @@ public class ClienteServiceImpl implements ClienteService {
                                 () -> {throw new EntityAlreadyExistsException("No se encontro un chofer con este dni");}
                         );
 
-        Cliente choferActualizado = propietarioMapper.clienteRequestToEntity(clienteRequest);
+        Cliente choferActualizado = clienteMapper.clienteRequestToEntity(clienteRequest);
         choferActualizado.setId(choferBD.getId());
 
-        return propietarioMapper.entityToResponse(
+        return clienteMapper.entityToResponse(
                 clientesRepository.save(
-                        propietarioMapper.clienteRequestToEntity(clienteRequest)
+                        clienteMapper.clienteRequestToEntity(clienteRequest)
                 )
         );
     }
