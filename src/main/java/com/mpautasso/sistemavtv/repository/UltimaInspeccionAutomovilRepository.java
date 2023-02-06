@@ -1,8 +1,8 @@
 package com.mpautasso.sistemavtv.repository;
 
-import com.mpautasso.sistemavtv.model.Automovil;
-import com.mpautasso.sistemavtv.model.EstadosInspeccion;
-import com.mpautasso.sistemavtv.model.UltimaInspeccionAutomovil;
+import com.mpautasso.sistemavtv.model.Vehiculo;
+import com.mpautasso.sistemavtv.model.enums.EstadosInspeccion;
+import com.mpautasso.sistemavtv.model.UltimaInspeccionVehiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UltimaInspeccionAutomovilRepository extends JpaRepository<UltimaInspeccionAutomovil, Long> {
-    List<UltimaInspeccionAutomovil> findAllByEstadosInspeccion(EstadosInspeccion estadosInspeccion);
-    Optional<UltimaInspeccionAutomovil> findByAutomovil(Automovil automovil);
+public interface UltimaInspeccionAutomovilRepository extends JpaRepository<UltimaInspeccionVehiculo, Long> {
+    List<UltimaInspeccionVehiculo> findAllByEstadosInspeccion(EstadosInspeccion estadosInspeccion);
+    Optional<UltimaInspeccionVehiculo> findByVehiculo(Vehiculo vehiculo);
 }

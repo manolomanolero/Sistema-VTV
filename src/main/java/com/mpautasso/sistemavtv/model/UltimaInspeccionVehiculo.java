@@ -1,5 +1,6 @@
 package com.mpautasso.sistemavtv.model;
 
+import com.mpautasso.sistemavtv.model.enums.EstadosInspeccion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,14 +12,14 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class UltimaInspeccionAutomovil {
+public class UltimaInspeccionVehiculo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "automovil_id", referencedColumnName = "id")
-    private Automovil automovil;
+    @JoinColumn(name = "vehiculo_id", referencedColumnName = "id")
+    private Vehiculo vehiculo;
 
     private EstadosInspeccion estadosInspeccion;
     private Date fecha;
