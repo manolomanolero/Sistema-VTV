@@ -26,6 +26,8 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private ModeloRepository modeloRepository;
     @Autowired
+    private UltimaInspeccionAutomovilRepository ultInspecRepo;
+    @Autowired
     private MarcaRepository marcaRepository;
 
 
@@ -166,6 +168,30 @@ public class DataLoader implements ApplicationRunner {
                         new Inspeccion(10L, EstadosInspeccion.RECHAZADO, true,
                                 new Date(), inspector3, moto4, "Fallo grave de contaminacion al 20%")
                 );
+
+                UltimaInspeccionVehiculo ultInspec1 =
+                        ultInspecRepo.save(new UltimaInspeccionVehiculo(1L, inspeccion2.getVehiculo(),
+                                inspeccion2.getEstado(), inspeccion2.getFecha()));
+
+                UltimaInspeccionVehiculo ultInspec2 =
+                        ultInspecRepo.save(new UltimaInspeccionVehiculo(2L, inspeccion3.getVehiculo(),
+                                inspeccion3.getEstado(), inspeccion3.getFecha()));
+
+                UltimaInspeccionVehiculo ultInspec3 =
+                        ultInspecRepo.save(new UltimaInspeccionVehiculo(3L, inspeccion4.getVehiculo(),
+                                inspeccion4.getEstado(), inspeccion4.getFecha()));
+
+                UltimaInspeccionVehiculo ultInspec4 =
+                        ultInspecRepo.save(new UltimaInspeccionVehiculo(4L, inspeccion5.getVehiculo(),
+                                inspeccion5.getEstado(), inspeccion5.getFecha()));
+
+                UltimaInspeccionVehiculo ultInspec5 =
+                        ultInspecRepo.save(new UltimaInspeccionVehiculo(5L, inspeccion6.getVehiculo(),
+                                inspeccion6.getEstado(), inspeccion6.getFecha()));
+
+                UltimaInspeccionVehiculo ultInspec6 =
+                        ultInspecRepo.save(new UltimaInspeccionVehiculo(6L, inspeccion8.getVehiculo(),
+                                inspeccion8.getEstado(), inspeccion8.getFecha()));
             }
         } catch (Exception e) {
             System.out.println(e);
