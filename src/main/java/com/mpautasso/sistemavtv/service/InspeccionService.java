@@ -3,7 +3,7 @@ package com.mpautasso.sistemavtv.service;
 import com.mpautasso.sistemavtv.model.Inspeccion;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionRequest;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionResponse;
-import com.mpautasso.sistemavtv.model.dtos.propietario.PropietarioDetallesResponse;
+import com.mpautasso.sistemavtv.model.dtos.cliente.PropietarioDetallesResponse;
 
 import java.util.List;
 
@@ -14,5 +14,5 @@ public interface InspeccionService {
     InspeccionResponse crearInspeccion(InspeccionRequest inspeccionRequest);
     InspeccionResponse editarInspeccion(InspeccionRequest inspeccionRequest);
     void eliminarInspeccion(Long numeroInspeccion);
-    PropietarioDetallesResponse listarInspeccionesPorAutoDePropietario(Long dni);
+    PropietarioDetallesResponse listarInspeccionesPorVehiculoDePropietario(Long dni);
 }

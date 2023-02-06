@@ -1,14 +1,14 @@
 package com.mpautasso.sistemavtv.mapper;
 
-import com.mpautasso.sistemavtv.model.Automovil;
-import com.mpautasso.sistemavtv.model.EstadosInspeccion;
+import com.mpautasso.sistemavtv.model.Vehiculo;
+import com.mpautasso.sistemavtv.model.enums.EstadosInspeccion;
 import com.mpautasso.sistemavtv.model.Inspeccion;
 import com.mpautasso.sistemavtv.model.Inspector;
-import com.mpautasso.sistemavtv.model.dtos.automovil.AutomovilResponse;
+import com.mpautasso.sistemavtv.model.dtos.vehiculo.VehiculoResponse;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionRequest;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionResponse;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.SimpleInspeccionResponse;
-import com.mpautasso.sistemavtv.model.dtos.inspector.InspectorResponse;
+import com.mpautasso.sistemavtv.model.dtos.empleado.EmpleadoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +17,13 @@ import java.util.Date;
 @Component
 public class InspeccionMapper {
     @Autowired
-    private AutomovilMapper automovilMapper;
+    private VehiculoMapper vehiculoMapper;
 
     @Autowired
-    private InspectorMapper inspectorMapper;
+    private EmpleadoMapper empleadoMapper;
 
-    public Inspeccion fromRequestToEntity(InspeccionRequest inspeccionRequest, Automovil automovil, Inspector inspector){
-        boolean estaExento = automovil.getPropietario().tipoPropietario().equals("exento");
+    public Inspeccion fromRequestToEntity(InspeccionRequest inspeccionRequest, Vehiculo vehiculo, Inspector inspector){
+        boolean estaExento = vehiculo.getPropietario().tipoDeCliente().equals("exento");
         Date fecha = (inspeccionRequest.getFecha() == null) ?
                 new Date() : inspeccionRequest.getFecha();
         return new Inspeccion(
@@ -32,33 +32,35 @@ public class InspeccionMapper {
                 estaExento,
                 fecha,
                 inspector,
-                automovil
+                vehiculo,
+                inspeccionRequest.getObservaciones()
         );
     }
 
     public InspeccionResponse fromEntityToResponse(Inspeccion inspeccion){
-        InspectorResponse inspectorResponse = inspectorMapper.fromEntityToResponse(inspeccion.getInspector());
-        AutomovilResponse automovilResponse = automovilMapper.fromEntityToResponse(inspeccion.getAutomovil());
+        EmpleadoResponse empleadoResponse = empleadoMapper.fromEntityToResponse(inspeccion.getInspector());
+        VehiculoResponse vehiculoResponse = vehiculoMapper.fromEntityToResponse(inspeccion.getVehiculo());
 
         return new InspeccionResponse(
                 inspeccion.getNumeroInspeccion(),
                 inspeccion.getEstado(),
                 inspeccion.getEstaExento(),
                 inspeccion.getFecha(),
-                inspectorResponse,
-                automovilResponse
+                empleadoResponse,
+                vehiculoResponse,
+                inspeccion.getObservaciones()
         );
     }
 
     public SimpleInspeccionResponse fromEntityToSimpleResponse(Inspeccion inspeccion){
-        InspectorResponse inspectorResponse = inspectorMapper.fromEntityToResponse(inspeccion.getInspector());
+        EmpleadoResponse empleadoResponse = empleadoMapper.fromEntityToResponse(inspeccion.getInspector());
 
         return new SimpleInspeccionResponse(
                 inspeccion.getNumeroInspeccion(),
                 inspeccion.getEstado(),
                 inspeccion.getEstaExento(),
                 inspeccion.getFecha(),
-                inspectorResponse
+                empleadoResponse
         );
     }
 }

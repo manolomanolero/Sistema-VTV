@@ -3,7 +3,7 @@ package com.mpautasso.sistemavtv.controller;
 import com.mpautasso.sistemavtv.model.dtos.MensajeResponse;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionRequest;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionResponse;
-import com.mpautasso.sistemavtv.model.dtos.propietario.PropietarioDetallesResponse;
+import com.mpautasso.sistemavtv.model.dtos.cliente.PropietarioDetallesResponse;
 import com.mpautasso.sistemavtv.service.InspeccionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class InspeccionController {
 
     @GetMapping("/propietario/{dni}")
     public ResponseEntity<PropietarioDetallesResponse> listarInspeccionesPorAutoDeUsuario(@PathVariable Long dni){
-        return ResponseEntity.ok(inspeccionService.listarInspeccionesPorAutoDePropietario(dni));
+        return ResponseEntity.ok(inspeccionService.listarInspeccionesPorVehiculoDePropietario(dni));
     }
 
     @PostMapping

@@ -4,19 +4,20 @@ import com.mpautasso.sistemavtv.exceptions.custom.EntityNotFoundException;
 import com.mpautasso.sistemavtv.exceptions.custom.InvalidArgumentException;
 import com.mpautasso.sistemavtv.exceptions.custom.NoSuchEntityExistsException;
 import com.mpautasso.sistemavtv.mapper.InspeccionMapper;
-import com.mpautasso.sistemavtv.mapper.PropietarioMapper;
+import com.mpautasso.sistemavtv.mapper.ClienteMapper;
 import com.mpautasso.sistemavtv.model.*;
-import com.mpautasso.sistemavtv.model.dtos.automovil.AutomovilInspeccionResponse;
+import com.mpautasso.sistemavtv.model.dtos.vehiculo.VehiculoInspeccionResponse;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionRequest;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.InspeccionResponse;
 import com.mpautasso.sistemavtv.model.dtos.inspeccion.SimpleInspeccionResponse;
-import com.mpautasso.sistemavtv.model.dtos.propietario.PropietarioDetallesResponse;
+import com.mpautasso.sistemavtv.model.dtos.cliente.PropietarioDetallesResponse;
+import com.mpautasso.sistemavtv.model.enums.EstadosInspeccion;
 import com.mpautasso.sistemavtv.repository.InspeccionRepository;
 import com.mpautasso.sistemavtv.repository.UltimaInspeccionAutomovilRepository;
-import com.mpautasso.sistemavtv.service.AutomovilService;
+import com.mpautasso.sistemavtv.service.VehiculoService;
 import com.mpautasso.sistemavtv.service.InspeccionService;
-import com.mpautasso.sistemavtv.service.InspectorService;
-import com.mpautasso.sistemavtv.service.PropietarioService;
+import com.mpautasso.sistemavtv.service.EmpleadoService;
+import com.mpautasso.sistemavtv.service.ClienteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +31,11 @@ import java.util.stream.Collectors;
 public class InspeccionServiceImpl implements InspeccionService {
     private final InspeccionRepository inspeccionRepository;
     private final UltimaInspeccionAutomovilRepository inspeccionAutomovilRepository;
-    private final AutomovilService automovilService;
-    private final InspectorService inspectorService;
-    private final PropietarioService propietarioService;
+    private final VehiculoService vehiculoService;
+    private final EmpleadoService empleadoService;
+    private final ClienteService clienteService;
     private final InspeccionMapper inspeccionMapper;
-    private final PropietarioMapper propietarioMapper;
+    private final ClienteMapper clienteMapper;
 
     @Override
     public List<InspeccionResponse> listarInspecciones() {
@@ -65,13 +66,13 @@ public class InspeccionServiceImpl implements InspeccionService {
     public InspeccionResponse crearInspeccion(InspeccionRequest inspeccionRequest) {
         validarDatosDeInspeccion(inspeccionRequest);
 
-        Automovil automovil = automovilService.buscarEntidadPorDominio(inspeccionRequest.getDominioAutomovil());
-        Inspector inspector = inspectorService.buscarEntidadPorDni(inspeccionRequest.getInspectorId());
+        Vehiculo vehiculo = vehiculoService.buscarEntidadPorDominio(inspeccionRequest.getDominioVehiculo());
+        Inspector inspector = empleadoService.buscarEntidadInspectorPorDni(inspeccionRequest.getInspectorId());
         Inspeccion inspeccion = inspeccionRepository.save(
-                inspeccionMapper.fromRequestToEntity(inspeccionRequest, automovil, inspector)
+                inspeccionMapper.fromRequestToEntity(inspeccionRequest, vehiculo, inspector)
         );
 
-        actualizarUltimaInspeccion(automovil, inspeccion);
+        actualizarUltimaInspeccion(vehiculo, inspeccion);
 
         return inspeccionMapper.fromEntityToResponse(inspeccion);
     }
@@ -92,13 +93,13 @@ public class InspeccionServiceImpl implements InspeccionService {
             inspeccionBD.setFecha(inspeccionRequest.getFecha());
         }
 
-        Automovil automovil = automovilService.buscarEntidadPorDominio(inspeccionRequest.getDominioAutomovil());
-        Inspector inspector = inspectorService.buscarEntidadPorDni(inspeccionRequest.getInspectorId());
-        inspeccionBD.setAutomovil(automovil);
+        Vehiculo vehiculo = vehiculoService.buscarEntidadPorDominio(inspeccionRequest.getDominioVehiculo());
+        Inspector inspector = empleadoService.buscarEntidadInspectorPorDni(inspeccionRequest.getInspectorId());
+        inspeccionBD.setVehiculo(vehiculo);
         inspeccionBD.setInspector(inspector);
-        inspeccionBD.setEstaExento(automovil.getPropietario().tipoPropietario().equals("exento"));
+        inspeccionBD.setEstaExento(vehiculo.getPropietario().tipoDeCliente().equals("exento"));
 
-        actualizarUltimaInspeccion(automovil, inspeccionBD);
+        actualizarUltimaInspeccion(vehiculo, inspeccionBD);
 
         return inspeccionMapper.fromEntityToResponse(
                 inspeccionRepository.save(inspeccionBD)
@@ -115,18 +116,18 @@ public class InspeccionServiceImpl implements InspeccionService {
     }
 
     @Override
-    public PropietarioDetallesResponse listarInspeccionesPorAutoDePropietario(Long dni) {
-        Propietario propietario = propietarioService.buscarEntidadPorDni(dni);
-        List<Automovil> automoviles = automovilService.listarAutomoviles(propietario);
+    public PropietarioDetallesResponse listarInspeccionesPorVehiculoDePropietario(Long dni) {
+        Propietario propietario = clienteService.buscarEntidadPropietarioPorDni(dni);
+        List<Vehiculo> vehiculos = vehiculoService.listarVehiculos(propietario);
 
-        List<AutomovilInspeccionResponse> automovilesResponse =
-                automoviles.stream()
-                        .map(this::listarInspeccionesDeAuto)
+        List<VehiculoInspeccionResponse> automovilesResponse =
+                vehiculos.stream()
+                        .map(this::listarInspeccionesDeVehiculo)
                         .collect(Collectors.toList());
 
 
         return new PropietarioDetallesResponse(
-                propietarioMapper.entityToResponse(propietario),
+                clienteMapper.entityToResponse(propietario),
                 automovilesResponse
         );
     }
@@ -145,23 +146,26 @@ public class InspeccionServiceImpl implements InspeccionService {
             throw new InvalidArgumentException("El dni del inspector no puede ser 0 o un numero negativo");
         }
 
-        if(inspeccionRequest.getDominioAutomovil().isBlank()){
+        if(inspeccionRequest.getDominioVehiculo().isBlank()){
             throw new InvalidArgumentException("El dominio del automovil no puede ser vacío o solo contener espacios");
         }
     }
 
-    private AutomovilInspeccionResponse listarInspeccionesDeAuto(Automovil automovil){
+    private VehiculoInspeccionResponse listarInspeccionesDeVehiculo(Vehiculo vehiculo){
         List<SimpleInspeccionResponse> simpleInspeccionResponses =
-                inspeccionRepository.findAllByAutomovil(automovil)
+                inspeccionRepository.findAllByVehiculo(vehiculo)
                 .stream()
                 .map(inspeccionMapper::fromEntityToSimpleResponse)
                 .collect(Collectors.toList());
-        return new AutomovilInspeccionResponse(
+
+       
+        /*return new VehiculoInspeccionResponse(
                 automovil.getMarca(),
                 automovil.getModelo(),
                 automovil.getDominio(),
                 simpleInspeccionResponses
-        );
+        );*/
+        return null;
     }
 
     private boolean noPerteneceAUnEstadoValido(String estadosInspeccion){
@@ -170,17 +174,17 @@ public class InspeccionServiceImpl implements InspeccionService {
                 estadosInspeccion.equals(EstadosInspeccion.RECHAZADO.toString()));
     }
 
-    private void actualizarUltimaInspeccion(Automovil automovil, Inspeccion inspeccion){
-        Optional<UltimaInspeccionAutomovil> inspeccionAutomovilOpt = inspeccionAutomovilRepository.findByAutomovil(automovil);
-        if(inspeccionAutomovilOpt.isPresent()){
-            UltimaInspeccionAutomovil inspecAuto = inspeccionAutomovilOpt.get();
-            inspecAuto.setEstadosInspeccion(inspeccion.getEstado());
-            inspecAuto.setFecha(inspeccion.getFecha());
-            inspeccionAutomovilRepository.save(inspecAuto);
+    private void actualizarUltimaInspeccion(Vehiculo vehiculo, Inspeccion inspeccion){
+        Optional<UltimaInspeccionVehiculo> inspeccionVehiculoOpt = inspeccionAutomovilRepository.findByVehiculo(vehiculo);
+        if(inspeccionVehiculoOpt.isPresent()){
+            UltimaInspeccionVehiculo inspecVehiculo = inspeccionVehiculoOpt.get();
+            inspecVehiculo.setEstadosInspeccion(inspeccion.getEstado());
+            inspecVehiculo.setFecha(inspeccion.getFecha());
+            inspeccionAutomovilRepository.save(inspecVehiculo);
         } else {
-            UltimaInspeccionAutomovil inspecAuto =
-                    new UltimaInspeccionAutomovil(null, automovil, inspeccion.getEstado(), inspeccion.getFecha());
-            inspeccionAutomovilRepository.save(inspecAuto);
+            UltimaInspeccionVehiculo inspecVehiculo =
+                    new UltimaInspeccionVehiculo(null, vehiculo, inspeccion.getEstado(), inspeccion.getFecha());
+            inspeccionAutomovilRepository.save(inspecVehiculo);
         }
     }
 }

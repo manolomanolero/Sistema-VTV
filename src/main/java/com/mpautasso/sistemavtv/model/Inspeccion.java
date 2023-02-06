@@ -1,5 +1,6 @@
 package com.mpautasso.sistemavtv.model;
 
+import com.mpautasso.sistemavtv.model.enums.EstadosInspeccion;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,9 +36,11 @@ public class Inspeccion {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
-            columnDefinition = "automovil_id",
+            columnDefinition = "vehiculo_id",
             referencedColumnName = "id",
             nullable = false
     )
-    private Automovil automovil;
+    private Vehiculo vehiculo;
+
+    private String observaciones;
 }

@@ -17,5 +17,6 @@ public class InspeccionRequest {
 
     private Long inspectorId;
 
-    private String dominioAutomovil;
+    private String dominioVehiculo;
+    private String observaciones;
 }

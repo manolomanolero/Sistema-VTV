@@ -1,8 +1,8 @@
 package com.mpautasso.sistemavtv.model.dtos.inspeccion;
 
-import com.mpautasso.sistemavtv.model.EstadosInspeccion;
-import com.mpautasso.sistemavtv.model.dtos.inspector.InspectorResponse;
-import com.mpautasso.sistemavtv.model.dtos.automovil.AutomovilResponse;
+import com.mpautasso.sistemavtv.model.enums.EstadosInspeccion;
+import com.mpautasso.sistemavtv.model.dtos.empleado.EmpleadoResponse;
+import com.mpautasso.sistemavtv.model.dtos.vehiculo.VehiculoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,8 @@ public class InspeccionResponse {
     private boolean estaExento;
     private Date fecha;
 
-    private InspectorResponse inspector;
+    private EmpleadoResponse inspector;
 
-    private AutomovilResponse automovil;
+    private VehiculoResponse vehiculo;
+    private String observaciones;
 }
