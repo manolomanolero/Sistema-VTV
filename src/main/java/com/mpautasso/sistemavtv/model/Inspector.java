@@ -3,25 +3,19 @@ package com.mpautasso.sistemavtv.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "INSPECTORES")
-public class Inspector {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@DiscriminatorValue("Inspector")
+public class Inspector extends Empleado {
 
-    @Column(nullable = false, unique = true)
-    private Long dni;
+    @Override
+    public String cargoDelEmpleado() {
+        return "Inspector";
+    }
 
-    @Column(nullable = false, length = 25)
-    private String nombre;
-
-    @Column(nullable = false, length = 25)
-    private String apellido;
-
+    public Inspector(Long dni, Long numeroLegajo, String nombre, String apellido) {
+        super(dni, numeroLegajo, nombre, apellido);
+    }
 }
