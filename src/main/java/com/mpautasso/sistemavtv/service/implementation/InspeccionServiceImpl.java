@@ -67,7 +67,7 @@ public class InspeccionServiceImpl implements InspeccionService {
         validarDatosDeInspeccion(inspeccionRequest);
 
         Vehiculo vehiculo = vehiculoService.buscarEntidadPorDominio(inspeccionRequest.getDominioVehiculo());
-        Inspector inspector = empleadoService.buscarEntidadInspectorPorDni(inspeccionRequest.getInspectorId());
+        Inspector inspector = empleadoService.buscarEntidadInspectorPorDni(inspeccionRequest.getInspectorDni());
         Inspeccion inspeccion = inspeccionRepository.save(
                 inspeccionMapper.fromRequestToEntity(inspeccionRequest, vehiculo, inspector)
         );
@@ -94,7 +94,7 @@ public class InspeccionServiceImpl implements InspeccionService {
         }
 
         Vehiculo vehiculo = vehiculoService.buscarEntidadPorDominio(inspeccionRequest.getDominioVehiculo());
-        Inspector inspector = empleadoService.buscarEntidadInspectorPorDni(inspeccionRequest.getInspectorId());
+        Inspector inspector = empleadoService.buscarEntidadInspectorPorDni(inspeccionRequest.getInspectorDni());
         inspeccionBD.setVehiculo(vehiculo);
         inspeccionBD.setInspector(inspector);
         inspeccionBD.setEstaExento(vehiculo.getPropietario().tipoDeCliente().equals("exento"));
@@ -118,7 +118,7 @@ public class InspeccionServiceImpl implements InspeccionService {
     @Override
     public PropietarioDetallesResponse listarInspeccionesPorVehiculoDePropietario(Long dni) {
         Propietario propietario = clienteService.buscarEntidadPropietarioPorDni(dni);
-        List<Vehiculo> vehiculos = vehiculoService.listarVehiculos(propietario);
+        List<Vehiculo> vehiculos = vehiculoService.listarAutomovilesPorPropietario(propietario);
 
         List<VehiculoInspeccionResponse> automovilesResponse =
                 vehiculos.stream()
@@ -142,7 +142,7 @@ public class InspeccionServiceImpl implements InspeccionService {
             throw new InvalidArgumentException("La fecha de la inspeccion no puede ser mayor a la actual");
         }
 
-        if(inspeccionRequest.getInspectorId() < 1){
+        if(inspeccionRequest.getInspectorDni() < 1){
             throw new InvalidArgumentException("El dni del inspector no puede ser 0 o un numero negativo");
         }
 
@@ -158,14 +158,15 @@ public class InspeccionServiceImpl implements InspeccionService {
                 .map(inspeccionMapper::fromEntityToSimpleResponse)
                 .collect(Collectors.toList());
 
-       
-        /*return new VehiculoInspeccionResponse(
-                automovil.getMarca(),
-                automovil.getModelo(),
-                automovil.getDominio(),
+        return new VehiculoInspeccionResponse(
+                vehiculo.getDominio(),
+                vehiculo.getNumeroMotor(),
+                vehiculo.getNumeroChasis(),
+                vehiculo.getVersion().getModelo().getMarca().getNombre(),
+                vehiculo.getVersion().getModelo().getNombre(),
+                vehiculo.getVersion().getNombre(),
                 simpleInspeccionResponses
-        );*/
-        return null;
+        );
     }
 
     private boolean noPerteneceAUnEstadoValido(String estadosInspeccion){
