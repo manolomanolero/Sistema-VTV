@@ -38,39 +38,44 @@ public class VehiculoServiceImpl implements VehiculoService {
     private final Date FECHA_LIMITE_VENCIMIENTO_DE_DIA = new Date(new Date().getTime() - 1000 * 60 * 60 * 24);
 
     @Override
-    public List<VehiculoResponse> listarVehiculos() {
-        return vehiculoRepository.findAll().stream()
+    public List<VehiculoResponse> listarAutomoviles() {
+        return vehiculoRepository.findAllAutomoviles().stream()
                 .map(vehiculoMapper::fromEntityToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Vehiculo> listarVehiculos(Propietario propietario) {
+    public List<Vehiculo> listarAutomovilesPorPropietario(Propietario propietario) {
         return vehiculoRepository.findAllByPropietario(propietario);
     }
 
     @Override
-    public List<VehiculoResponse> listarVehiculosAptos() {
+    public List<VehiculoResponse> listarAutomovilesAptos() {
         return inspeccionAutoRepo.findAllByEstadosInspeccion(EstadosInspeccion.APTO)
                 .stream()
-                .filter(auto -> FECHA_LIMITE_VENCIMIENTO_DE_AÑO.before(auto.getFecha()))
+                .filter(auto ->
+                        FECHA_LIMITE_VENCIMIENTO_DE_AÑO.before(auto.getFecha())
+                        && auto.getVehiculo().getClass().getSimpleName().equals("Automovil"))
                 .map(vehiculoMapper::inspeccionAutoToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<VehiculoResponse> listarVehiculosCondicionales() {
+    public List<VehiculoResponse> listarAutomovilesCondicionales() {
         return inspeccionAutoRepo.findAllByEstadosInspeccion(EstadosInspeccion.CONDICIONAL)
                 .stream()
-                .filter(auto -> FECHA_LIMITE_VENCIMIENTO_DE_DIA.before(auto.getFecha()))
+                .filter(auto ->
+                        FECHA_LIMITE_VENCIMIENTO_DE_DIA.before(auto.getFecha())
+                        && auto.getVehiculo().getClass().getSimpleName().equals("Automovil"))
                 .map(vehiculoMapper::inspeccionAutoToResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<VehiculoResponse> listarVehiculosRechazados() {
+    public List<VehiculoResponse> listarAutomovilesRechazados() {
         return inspeccionAutoRepo.findAllByEstadosInspeccion(EstadosInspeccion.RECHAZADO)
                 .stream()
+                .filter(auto -> auto.getVehiculo().getClass().getSimpleName().equals("Automovil"))
                 .map(vehiculoMapper::inspeccionAutoToResponse)
                 .collect(Collectors.toList());
     }
@@ -85,7 +90,7 @@ public class VehiculoServiceImpl implements VehiculoService {
     }
 
     @Override
-    public VehiculoResponse buscarVehiculoPorDominio(String dominio) {
+    public VehiculoResponse buscarAutomovilPorDominio(String dominio) {
         Optional<Vehiculo> vehiculoOptional = vehiculoRepository.findByDominio(dominio);
         if (vehiculoOptional.isEmpty()) {
             throw new NoSuchEntityExistsException("No se encontro vehiculo asociado al dominio");
@@ -95,7 +100,7 @@ public class VehiculoServiceImpl implements VehiculoService {
     }
 
     @Override
-    public VehiculoResponse crearVehiculo(VehiculoRequest vehiculoRequest) {
+    public VehiculoResponse crearAutomovil(VehiculoRequest vehiculoRequest) {
         validarDatosDeVehiculo(vehiculoRequest);
 
         Optional<Vehiculo> vehiculoOptional = vehiculoRepository.findByDominio(vehiculoRequest.getDominio());
@@ -122,7 +127,7 @@ public class VehiculoServiceImpl implements VehiculoService {
     }
 
     @Override
-    public VehiculoResponse editarVehiculo(VehiculoRequest vehiculoRequest) {
+    public VehiculoResponse editarAutomovil(VehiculoRequest vehiculoRequest) {
         validarDatosDeVehiculo(vehiculoRequest);
 
         Optional<Vehiculo> vehiculoOptional = vehiculoRepository.findByDominio(vehiculoRequest.getDominio());
