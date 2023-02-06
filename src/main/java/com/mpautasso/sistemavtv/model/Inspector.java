@@ -15,7 +15,11 @@ public class Inspector extends Empleado {
         return "Inspector";
     }
 
-    public Inspector(Long dni, Long numeroLegajo, String nombre, String apellido) {
-        super(dni, numeroLegajo, nombre, apellido);
+    public Inspector(Long numeroLegajo, Long dni, String nombre, String apellido) {
+        super(numeroLegajo, dni, nombre, apellido);
+    }
+
+    public Inspector(Long dni, String nombre, String apellido) {
+        super(dni, nombre, apellido);
     }
 }

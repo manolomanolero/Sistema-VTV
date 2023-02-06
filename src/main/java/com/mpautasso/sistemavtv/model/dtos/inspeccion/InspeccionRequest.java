@@ -15,7 +15,7 @@ public class InspeccionRequest {
     private String estado;
     private Date fecha;
 
-    private Long inspectorId;
+    private Long inspectorDni;
 
     private String dominioVehiculo;
     private String observaciones;

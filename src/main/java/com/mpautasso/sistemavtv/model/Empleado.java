@@ -16,13 +16,11 @@ import lombok.NoArgsConstructor;
 public abstract class Empleado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "numero_legajo")
+    private Long numeroLegajo;
 
     @Column(nullable = false, unique = true)
     private Long dni;
-
-    @Column(nullable = false, unique = true)
-    private Long numeroLegajo;
 
     @Column(nullable = false, length = 25)
     private String nombre;
@@ -32,9 +30,8 @@ public abstract class Empleado {
 
     public abstract String cargoDelEmpleado();
 
-    public Empleado(Long dni, Long numeroLegajo, String nombre, String apellido) {
+    public Empleado(Long dni, String nombre, String apellido) {
         this.dni = dni;
-        this.numeroLegajo = numeroLegajo;
         this.nombre = nombre;
         this.apellido = apellido;
     }

@@ -28,8 +28,8 @@ public class Inspeccion {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
-            columnDefinition = "inspector_id",
-            referencedColumnName = "id",
+            columnDefinition = "inspector_legajo",
+            referencedColumnName = "numero_legajo",
             nullable = false
     )
     private Inspector inspector;

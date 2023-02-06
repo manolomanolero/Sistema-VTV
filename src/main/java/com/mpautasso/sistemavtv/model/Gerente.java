@@ -15,7 +15,11 @@ public class Gerente extends Empleado{
         return "Gerente";
     }
 
-    public Gerente(Long dni, Long numeroLegajo, String nombre, String apellido) {
-        super(dni, numeroLegajo, nombre, apellido);
+    public Gerente(Long numeroLegajo, Long dni, String nombre, String apellido) {
+        super(numeroLegajo, dni, nombre, apellido);
+    }
+
+    public Gerente(Long dni, String nombre, String apellido) {
+        super(dni, nombre, apellido);
     }
 }
