@@ -21,6 +21,8 @@ public class UltimaInspeccionVehiculo {
     @JoinColumn(name = "vehiculo_id", referencedColumnName = "id")
     private Vehiculo vehiculo;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 15)
     private EstadosInspeccion estadosInspeccion;
     private Date fecha;
 }

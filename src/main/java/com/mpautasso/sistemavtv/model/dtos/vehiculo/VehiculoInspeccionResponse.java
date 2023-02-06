@@ -11,8 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VehiculoInspeccionResponse {
+    private String dominio;
+    private String numeroMotor;
+    private String numeroChasis;
     private String marca;
     private String modelo;
-    private String dominio;
+    private String version;
     private List<SimpleInspeccionResponse> inspecciones;
 }

@@ -11,6 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface UltimaInspeccionAutomovilRepository extends JpaRepository<UltimaInspeccionVehiculo, Long> {
-    List<UltimaInspeccionVehiculo> findAllByEstadosInspeccion(EstadosInspeccion estadosInspeccion);
     Optional<UltimaInspeccionVehiculo> findByVehiculo(Vehiculo vehiculo);
+    List<UltimaInspeccionVehiculo> findAllByEstadosInspeccion(EstadosInspeccion estadosInspeccion);
 }
