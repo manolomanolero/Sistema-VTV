@@ -125,7 +125,7 @@ public class ClienteServiceImpl implements ClienteService {
 
         return clienteMapper.entityToResponse(
                 clientesRepository.save(
-                        clienteMapper.clienteRequestToEntity(clienteRequest)
+                        clienteMapper.choferRequestToEntity(clienteRequest)
                 )
         );
     }
@@ -176,13 +176,11 @@ public class ClienteServiceImpl implements ClienteService {
                                 () -> {throw new EntityAlreadyExistsException("No se encontro un chofer con este dni");}
                         );
 
-        Cliente choferActualizado = clienteMapper.clienteRequestToEntity(clienteRequest);
+        Cliente choferActualizado = clienteMapper.choferRequestToEntity(clienteRequest);
         choferActualizado.setId(choferBD.getId());
 
         return clienteMapper.entityToResponse(
-                clientesRepository.save(
-                        clienteMapper.clienteRequestToEntity(clienteRequest)
-                )
+                clientesRepository.save(choferActualizado)
         );
     }
 

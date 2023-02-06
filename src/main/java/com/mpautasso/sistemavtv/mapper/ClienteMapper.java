@@ -20,6 +20,10 @@ public class ClienteMapper {
         return modelMapper.map(clienteRequest, PropietarioExento.class);
     }
 
+    public Chofer choferRequestToEntity(ClienteRequest clienteRequest){
+        return modelMapper.map(clienteRequest, Chofer.class);
+    }
+
     public Cliente clienteRequestToEntity(ClienteRequest clienteRequest){
         if(clienteRequest.isEsTitular()){
             if (clienteRequest.isEstaExento()){
