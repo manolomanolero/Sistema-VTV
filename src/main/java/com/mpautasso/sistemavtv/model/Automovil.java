@@ -3,33 +3,26 @@ package com.mpautasso.sistemavtv.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name = "AUTOMOVILES")
-public class Automovil {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@DiscriminatorValue("Automovil")
+public class Automovil extends Vehiculo{
+    public Automovil(String dominio, String numeroMotor, String numeroChasis, Version version, Propietario propietario, Chofer chofer) {
+        super(dominio, numeroMotor, numeroChasis, version, propietario, chofer);
+    }
 
-    @Column(name = "marca", nullable = false, length = 25)
-    private String marca;
-    @Column(name = "modelo", nullable = false, length = 25)
-    private String modelo;
+    public Automovil(Long id, String dominio, String numeroMotor, String numeroChasis, Version version, Propietario propietario, Chofer chofer) {
+        super(id, dominio, numeroMotor, numeroChasis, version, propietario, chofer);
+    }
 
-    @Column(name = "dominio", nullable = false, unique = true, length = 25)
-    private String dominio;
+    public Automovil(Long id, String dominio, String numeroMotor, String numeroChasis, Version version, Propietario propietario) {
+        super(id, dominio, numeroMotor, numeroChasis, version, propietario);
+    }
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(
-            name = "propietario_id",
-            referencedColumnName = "id"
-    )
-    private Propietario propietario;
-
-
-
+    public Automovil(String dominio, String numeroMotor, String numeroChasis, Version version, Propietario propietario) {
+        super(dominio, numeroMotor, numeroChasis, version, propietario);
+    }
 }
+
