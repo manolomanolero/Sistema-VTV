@@ -52,8 +52,26 @@ public class ClienteMapper {
     }
 
     public ClienteResponse entityToResponse(Cliente cliente){
+        if(cliente.getClass().getSimpleName().equals("PropietarioComun")) {
+            return new ClienteResponse(
+                    cliente.getDni(), cliente.getNombre(), cliente.getApellido(),
+                    cliente.tipoDeCliente(), null, null
+            );
+        } else if(cliente.getClass().getSimpleName().equals("PropietarioExento")) {
+            return new ClienteResponse(
+                    cliente.getDni(), cliente.getNombre(), cliente.getApellido(),
+                    cliente.tipoDeCliente(), null, ((PropietarioExento) cliente).getCuit()
+            );
+        } else if(cliente.getClass().getSimpleName().equals("Chofer")){
+            return new ClienteResponse(
+                    cliente.getDni(), cliente.getNombre(), cliente.getApellido(), cliente.tipoDeCliente(),
+                    ((Chofer) cliente).getCedulaAzul(), null
+            );
+        }
         return new ClienteResponse(
-                cliente.getDni(), cliente.getNombre(), cliente.getApellido(), cliente.tipoDeCliente()
+                cliente.getDni(), cliente.getNombre(), cliente.getApellido(),
+                cliente.tipoDeCliente(), null, null
         );
     }
+
 }

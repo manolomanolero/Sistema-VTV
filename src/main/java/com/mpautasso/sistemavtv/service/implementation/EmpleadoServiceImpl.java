@@ -152,11 +152,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
     public void eliminarEmpleado(Long dni) {
-        Optional<Inspector> inspectorOptional = empleadoRepository.findInspectorByDni(dni);
-        if(inspectorOptional.isEmpty()){
+        Optional<Empleado> empleadoOptionalOptional = empleadoRepository.findByDni(dni);
+        if(empleadoOptionalOptional.isEmpty()){
             throw new NoSuchEntityExistsException("No se encontro el empleado a eliminar");
         }
-        empleadoRepository.delete(inspectorOptional.get());
+        empleadoRepository.delete(empleadoOptionalOptional.get());
     }
 
 }

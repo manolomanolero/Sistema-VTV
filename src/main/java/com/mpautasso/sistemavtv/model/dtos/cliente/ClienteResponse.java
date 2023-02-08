@@ -12,4 +12,6 @@ public class ClienteResponse {
     private String nombre;
     private String apellido;
     private String tipo;
+    private String cedulaAzul;
+    private Long cuit;
 }
